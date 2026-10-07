@@ -1,0 +1,11 @@
+{
+  "name": "harugyeol",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "zodiac": "node scripts/generate-zodiac.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest"
+  }
+}
