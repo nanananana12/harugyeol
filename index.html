@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>하루결 · 오늘의 운세</title>
-  <meta name="description" content="이름과 생년월일로 보는 오늘의 운세, 그리고 매일 업데이트되는 별자리 운세." />
+  <meta name="description" content="이름과 생년월일로 가볍게 보는 오늘의 운세." />
   <meta property="og:title" content="하루결 · 오늘의 운세" />
-  <meta property="og:description" content="가볍게 보는 오늘의 운세와 별자리 운세" />
+  <meta property="og:description" content="이름과 생년월일로 가볍게 보는 오늘의 운세" />
   <meta name="theme-color" content="#f7f6f2" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
@@ -26,13 +26,7 @@
       <p class="hero-sub">재미로 보는 운세예요. 좋은 말은 챙기고, 나머지는 가볍게 넘겨요.</p>
     </section>
 
-    <nav class="tabs" role="tablist" aria-label="운세 종류">
-      <button class="tab is-active" role="tab" id="tab-personal" aria-selected="true" aria-controls="panel-personal" data-tab="personal">오늘의 운세</button>
-      <button class="tab" role="tab" id="tab-zodiac" aria-selected="false" aria-controls="panel-zodiac" data-tab="zodiac">별자리 운세</button>
-    </nav>
-
-    <!-- 오늘의 운세 -->
-    <section class="panel" id="panel-personal" role="tabpanel" aria-labelledby="tab-personal">
+    <section class="panel" id="panel-personal">
       <form class="card form" id="fortune-form" autocomplete="off">
         <div class="field">
           <label for="name">이름</label>
@@ -66,14 +60,6 @@
 
       <div id="fortune-result" class="result" hidden></div>
     </section>
-
-    <!-- 별자리 운세 -->
-    <section class="panel" id="panel-zodiac" role="tabpanel" aria-labelledby="tab-zodiac" hidden>
-      <div class="zodiac-head">
-        <p class="zodiac-updated" id="zodiac-updated"></p>
-      </div>
-      <div class="zodiac-grid" id="zodiac-grid"></div>
-    </section>
   </main>
 
   <footer class="site-footer">
@@ -83,7 +69,6 @@
     </div>
   </footer>
 
-  <script src="data/zodiac.js"></script>
   <script src="js/fortune.js"></script>
   <script src="js/app.js"></script>
 </body>

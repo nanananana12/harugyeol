@@ -95,35 +95,6 @@ body {
 }
 .hero-sub { margin: 0; color: var(--ink-2); }
 
-/* Tabs */
-.tabs {
-  display: inline-flex;
-  gap: 4px;
-  padding: 4px;
-  background: var(--surface-2);
-  border-radius: 999px;
-  margin-bottom: 20px;
-}
-.tab {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  color: var(--ink-2);
-  font: inherit;
-  font-size: 15px;
-  font-weight: 600;
-  padding: 8px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.tab:hover { color: var(--ink); }
-.tab.is-active {
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
 .panel { padding-bottom: 56px; }
 
 /* Card */
@@ -288,55 +259,6 @@ body {
 
 .result-actions { display: flex; gap: 8px; justify-content: center; padding-top: 4px; }
 
-/* Zodiac */
-.zodiac-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-.zodiac-updated { margin: 0; color: var(--ink-3); font-size: 14px; }
-.zodiac-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
-
-.zcard {
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  cursor: pointer;
-  text-align: left;
-  font: inherit;
-  color: inherit;
-  transition: border-color 0.15s, transform 0.15s;
-}
-.zcard:hover { border-color: var(--ink-3); }
-.zcard.is-mine { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.zcard-top { display: flex; align-items: center; gap: 12px; }
-.animal {
-  width: 52px;
-  height: 52px;
-  flex: none;
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  font-size: 30px;
-  line-height: 1;
-}
-.zname { font-weight: 700; font-size: 16px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 6px; }
-.mine-tag { white-space: nowrap; font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 1px 7px; border-radius: 999px; }
-.zdate { font-size: 13px; color: var(--ink-3); }
-.stars { margin-left: auto; color: var(--accent); font-size: 13px; letter-spacing: 1px; white-space: nowrap; }
-.stars .off { color: var(--line); }
-.zsummary { margin: 0; font-size: 15px; color: var(--ink-2); }
-.zdetail { display: none; border-top: 1px solid var(--line); padding-top: 12px; gap: 8px; }
-.zcard.is-open .zdetail { display: grid; }
-.zrow { display: grid; grid-template-columns: 44px 1fr; gap: 8px; font-size: 14px; }
-.zrow b { color: var(--ink-3); font-weight: 650; }
-.zrow span { color: var(--ink-2); }
-.zlucky { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-
-.empty {
-  grid-column: 1 / -1;
-  padding: 40px 20px;
-  text-align: center;
-  color: var(--ink-3);
-}
-
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--line);
@@ -349,7 +271,6 @@ body {
 /* Mobile */
 @media (max-width: 600px) {
   .hero { padding: 32px 0 20px; }
-  .zodiac-grid { grid-template-columns: 1fr; }
   .summary { grid-template-columns: 1fr; text-align: center; justify-items: center; }
   .badges { justify-content: center; }
   .lucky { grid-template-columns: repeat(2, 1fr); }

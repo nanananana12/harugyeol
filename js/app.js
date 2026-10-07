@@ -4,21 +4,6 @@
   const STORAGE_KEY = "harugyeol:profile";
   const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
-  const ZODIAC_META = [
-    { id: "aries", name: "양자리", range: "3.21 ~ 4.19", animal: "🐑", bg: "#fbe9e4" },
-    { id: "taurus", name: "황소자리", range: "4.20 ~ 5.20", animal: "🐮", bg: "#eef3e3" },
-    { id: "gemini", name: "쌍둥이자리", range: "5.21 ~ 6.21", animal: "🐥", bg: "#fdf4d8" },
-    { id: "cancer", name: "게자리", range: "6.22 ~ 7.22", animal: "🦀", bg: "#fde6e2" },
-    { id: "leo", name: "사자자리", range: "7.23 ~ 8.22", animal: "🦁", bg: "#fcefd9" },
-    { id: "virgo", name: "처녀자리", range: "8.23 ~ 9.22", animal: "🐰", bg: "#f3ecf8" },
-    { id: "libra", name: "천칭자리", range: "9.23 ~ 10.22", animal: "🐼", bg: "#eceff3" },
-    { id: "scorpio", name: "전갈자리", range: "10.23 ~ 11.22", animal: "🦔", bg: "#f2e9e1" },
-    { id: "sagittarius", name: "사수자리", range: "11.23 ~ 12.21", animal: "🐴", bg: "#f6ece2" },
-    { id: "capricorn", name: "염소자리", range: "12.22 ~ 1.19", animal: "🐐", bg: "#ecefe8" },
-    { id: "aquarius", name: "물병자리", range: "1.20 ~ 2.18", animal: "🐳", bg: "#e3eff9" },
-    { id: "pisces", name: "물고기자리", range: "2.19 ~ 3.20", animal: "🐠", bg: "#e2f3f3" },
-  ];
-
   const $ = (sel) => document.querySelector(sel);
 
   function esc(s) {
@@ -39,21 +24,6 @@
   const today = Fortune.todayKST();
   $("#today-label").textContent = `${today.m}월 ${today.d}일 ${WEEKDAYS[today.weekday]}요일`;
   $("#birth").max = today.key;
-
-  // ---------- 탭 ----------
-  const tabs = document.querySelectorAll(".tab");
-  function showTab(name) {
-    tabs.forEach((t) => {
-      const on = t.dataset.tab === name;
-      t.classList.toggle("is-active", on);
-      t.setAttribute("aria-selected", String(on));
-      document.getElementById(`panel-${t.dataset.tab}`).hidden = !on;
-    });
-    if (location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
-  }
-  tabs.forEach((t) => t.addEventListener("click", () => showTab(t.dataset.tab)));
-  if (location.hash === "#zodiac") showTab("zodiac");
-  window.addEventListener("hashchange", () => showTab(location.hash === "#zodiac" ? "zodiac" : "personal"));
 
   // ---------- 오늘의 운세 ----------
   const form = $("#fortune-form");
@@ -129,7 +99,7 @@
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const bar = result.querySelector(".score-ring .bar");
-        bar.style.strokeDashoffset = bar.dataset.target;
+        if (bar) bar.style.strokeDashoffset = bar.dataset.target;
         result.querySelectorAll(".meter span").forEach((s) => (s.style.width = s.dataset.w + "%"));
       });
     });
@@ -152,8 +122,6 @@
         }
       } catch (err) { /* 공유 취소 */ }
     });
-
-    highlightMySign(f.sign.id);
   }
 
   // 저장된 정보를 지우고 입력 화면으로 돌아간다
@@ -163,14 +131,12 @@
     result.hidden = true;
     result.innerHTML = "";
     form.hidden = false;
-    renderZodiac();
   }
 
   // 로고를 누르면 처음 화면으로
   $(".logo").addEventListener("click", (e) => {
     e.preventDefault();
     resetFortune();
-    showTab("personal");
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
@@ -186,76 +152,6 @@
     renderFortune(Fortune.generate(profile));
     window.scrollTo({ top: result.offsetTop - 80, behavior: "smooth" });
   });
-
-  // ---------- 별자리 운세 ----------
-  const grid = $("#zodiac-grid");
-
-  function stars(n) {
-    const v = Math.max(1, Math.min(5, Math.round(n)));
-    return `<span class="stars" aria-label="5점 만점에 ${v}점">${"★".repeat(v)}<span class="off">${"★".repeat(5 - v)}</span></span>`;
-  }
-
-  function renderZodiac() {
-    const data = window.ZODIAC_DATA;
-    if (!data || !data.signs) {
-      grid.innerHTML = `<div class="card empty">오늘의 별자리 운세를 준비하고 있어요.</div>`;
-      return;
-    }
-    const [y, m, d] = data.date.split("-").map(Number);
-    $("#zodiac-updated").textContent =
-      data.date === today.key
-        ? `${m}월 ${d}일 운세 · 매일 자정 업데이트`
-        : `${y}.${m}.${d} 기준 · 오늘 운세를 준비 중이에요`;
-
-    grid.innerHTML = ZODIAC_META.map((z) => {
-      const s = data.signs[z.id];
-      if (!s) return "";
-      return `
-        <button type="button" class="card zcard" data-id="${z.id}" aria-expanded="false">
-          <div class="zcard-top">
-            <div class="animal" style="background:${z.bg}" aria-hidden="true">${z.animal}</div>
-            <div>
-              <div class="zname">${z.name}</div>
-              <div class="zdate">${z.range}</div>
-            </div>
-            ${stars(s.score)}
-          </div>
-          <p class="zsummary">${esc(s.summary)}</p>
-          <div class="zdetail">
-            <div class="zrow"><b>애정</b><span>${esc(s.love)}</span></div>
-            <div class="zrow"><b>금전</b><span>${esc(s.money)}</span></div>
-            <div class="zrow"><b>건강</b><span>${esc(s.health)}</span></div>
-            <div class="zlucky">
-              <span class="badge">행운의 색 · ${esc(s.luckyColor)}</span>
-              <span class="badge">행운의 숫자 · ${esc(s.luckyNumber)}</span>
-            </div>
-          </div>
-        </button>`;
-    }).join("");
-
-    grid.querySelectorAll(".zcard").forEach((card) => {
-      card.addEventListener("click", () => {
-        const open = card.classList.toggle("is-open");
-        card.setAttribute("aria-expanded", String(open));
-      });
-    });
-  }
-
-  function highlightMySign(id) {
-    grid.querySelectorAll(".zcard").forEach((card) => {
-      const mine = card.dataset.id === id;
-      card.classList.toggle("is-mine", mine);
-      const nameEl = card.querySelector(".zname");
-      const tag = nameEl.querySelector(".mine-tag");
-      if (mine && !tag) nameEl.insertAdjacentHTML("beforeend", `<span class="mine-tag">내 별자리</span>`);
-      if (!mine && tag) tag.remove();
-    });
-    // 내 별자리를 맨 앞으로
-    const mineCard = id && grid.querySelector(`.zcard[data-id="${id}"]`);
-    if (mineCard) grid.prepend(mineCard);
-  }
-
-  renderZodiac();
 
   // 저장된 정보가 있으면 바로 오늘 운세를 보여 준다
   const saved = storage("get");
